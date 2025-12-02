@@ -1,0 +1,1 @@
+No fucking AI used in this project =)
