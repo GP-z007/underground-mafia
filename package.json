@@ -1,0 +1,28 @@
+{
+  "name": "mernproject",
+  "version": "1.0.0",
+  "description": "No fucking AI used in this project =)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GP-z007/underground-mafia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/GP-z007/underground-mafia/issues"
+  },
+  "homepage": "https://github.com/GP-z007/underground-mafia#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.0",
+    "nodemon": "^3.1.11"
+  }
+}
