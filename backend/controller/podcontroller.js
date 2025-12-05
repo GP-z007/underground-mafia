@@ -1,5 +1,5 @@
 import Pod from '../models/podmodel.js'
-
+import HandleError from '../utils/handleError.js'
 //creating pods
 export const createPods=async(req,res)=>{
     
@@ -19,13 +19,15 @@ export const getAllPods=async(req,res) =>{
     })
 }
 // update pods
-export const updatePod=async(req,res)=>{
+export const updatePod=async(req,res,next)=>{
     
     const pod=await Pod.findByIdAndUpdate(req.params.id,req.body,{
         new:true,
         runValidators:true
     })
-    
+    if(!pod){
+        return next(new HandleError("Pod not found" , 404))
+    }
     res.status(200).json({
         success:true,
         pod
@@ -34,9 +36,12 @@ export const updatePod=async(req,res)=>{
 
 // Delete Product
 
-export const deletePod=async(req,res)=>{
+export const deletePod=async(req,res,next)=>{
     
     const pod=await Pod.findByIdAndDelete(req.params.id)  
+    if(!pod){
+       return next(new HandleError("Pod not found" , 404)) 
+    }
     res.status(200).json({
         success:true,
         message:"pod deleted successfully"
@@ -44,13 +49,10 @@ export const deletePod=async(req,res)=>{
 }
 
 // acessing single pod
-export const getSinglePod=async(req,res)=>{
+export const getSinglePod=async(req,res,next)=>{
     let pod = await Pod.findById(req.params.id);
     if(!pod){
-        return res.status(500).json({
-            sucess:false,
-            message:"Pod is not found"
-        })
+        return next(new HandleError("Pod not found" , 404))
     }
     res.status(200).json({
         success:true,
