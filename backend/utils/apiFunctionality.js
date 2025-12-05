@@ -11,10 +11,31 @@ class APIFunctionality{
                 $options:"i"
             }
         }:{};
-        console.log(keyword);
         
         this.query=this.query.find({...keyword})
         return this
+    }
+
+    filter(){
+        const queryCopy ={...this.queryStr};
+        // console.log(queryCopy);
+        
+        const removeFields = ["keyword","page","limit"];
+        removeFields.forEach(key=>delete queryCopy[key]);
+        // console.log(queryCopy)
+        this.query=this.query.find(queryCopy)
+    }
+
+    pagination(resultPerPage){
+        // console.log(resultPerPage);
+
+        const currentPage = Number(this.queryStr.page) || 1
+        // console.log(currentPage);
+        const skip=resultPerPage*(currentPage - 1)
+        this.query=this.query.limit(resultPerPage).skip(skip)
+        return this
+        
+        
     }
 }
 export default APIFunctionality

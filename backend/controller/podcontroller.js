@@ -19,14 +19,21 @@ export const createPods=handleAsyncError(async(req,res,next)=>{
 // Get all pods
 export const getAllPods=handleAsyncError(async(req,res,next) =>{
     // console.log(req.query);
+    const resultPerPage=3
+    const apiFeatures = new APIFunctionality(Pod.find(),req.query).search().filter();
+
+    //getting filtered query
+    const filteredQuery=apiFeatures.query.clone();
+    const productCount=await filteredQuery.countDocuments();
+    console.log(productCount);
     
-    const apiFunctionality = new APIFunctionality(Pod.find(),req.query).search();
-    console.log(apiFunctionality);
+    // console.log(apiFunctionality);
     
-    const pods = await apiFunctionality.query
+    const pods = await apiFeatures.query
     res.status(200).json({
         success:true,
-        pods
+        pods,
+        productCount
     })
 })
 // update pods
