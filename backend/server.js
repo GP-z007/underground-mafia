@@ -7,7 +7,16 @@ connectMongoDatabase();
 const port = process.env.PORT || 3000  //we assign 3000 for safer side alternative side
 
 
-app.listen(process.env.PORT,()=>{
+const server=app.listen(process.env.PORT,()=>{
     console.log(`Server is running on ${port}`);
+    
+})
+
+process.on('unhandledRejection',(err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log(`Server is shutting down n** handle promise rejection properly `);
+    server.close(()=>{
+        process.exit(1)
+    })
     
 })
