@@ -38,4 +38,7 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire:Date
 },{timestamps:true})
 
+//hash password
+
+
 export default mongoose.model("User",userSchema)
