@@ -24,16 +24,35 @@ export const getAllPods=handleAsyncError(async(req,res,next) =>{
 
     //getting filtered query
     const filteredQuery=apiFeatures.query.clone();
-    const productCount=await filteredQuery.countDocuments();
-    console.log(productCount);
+    const podCount=await filteredQuery.countDocuments();
+    console.log(podCount);
     
     // console.log(apiFunctionality);
-    
-    const pods = await apiFeatures.query
+
+    // calculate totalpages
+    const totalPages=Math.ceil(podCount/resultPerPage)
+    // console.log(totalPages);
+    const page=Number(req.query.page) || 1;
+    if (page>totalPages && podCount>0){
+        return next(new HandleError("This page doesn't excist",404))
+    }
+
+    apiFeatures.pagination(resultPerPage);
+
+    // apply pagination
+    apiFeatures.pagination(resultPerPage)
+    const pods = await apiFeatures.query;
+
+    if (!pods || pods.length===0){
+        return next(new HandleError("no Pod found",404))
+    }
+
     res.status(200).json({
         success:true,
         pods,
-        productCount
+        podCount,
+        totalPages,
+        currentPage:page
     })
 })
 // update pods
@@ -50,6 +69,8 @@ export const updatePod=handleAsyncError(async(req,res,next)=>{
         success:true,
         pod
     })
+
+    
 })
 
 // Delete Product

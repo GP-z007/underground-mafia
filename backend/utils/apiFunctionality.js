@@ -24,6 +24,7 @@ class APIFunctionality{
         removeFields.forEach(key=>delete queryCopy[key]);
         // console.log(queryCopy)
         this.query=this.query.find(queryCopy)
+        return this
     }
 
     pagination(resultPerPage){
